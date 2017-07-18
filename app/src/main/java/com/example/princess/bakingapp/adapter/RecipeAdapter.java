@@ -12,6 +12,7 @@ import com.example.princess.bakingapp.R;
 import com.example.princess.bakingapp.model.Recipes;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by Princess on 7/14/2017.
@@ -41,6 +42,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         Recipes recipes_item = recipes.get(position);
         String serving = recipes_item.getServings();
         holder.name.setText(recipes_item.getName());
+        if(recipes_item.getName().equals("Nutella Pie")){
+            holder.imageView.setImageResource(R.drawable.nutella_pie);
+        }else if(recipes_item.getName().equals("Brownies")){
+            holder.imageView.setImageResource(R.drawable.brownies);
+        }else if(recipes_item.getName().equals("Yellow Cake")){
+            holder.imageView.setImageResource(R.drawable.yellow_cake);
+        }else if(recipes_item.getName().equals("Cheesecake")) {
+            holder.imageView.setImageResource(R.drawable.cheesecake);
+        }
         holder.servings.setText("Servings: " + serving);
 
     }

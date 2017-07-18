@@ -22,23 +22,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.StepsActivity"
             android:label="@string/title_activity_steps"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
+
         </activity>
+
         <activity
             android:name=".activities.StepsDetailActivity"
             android:label="@string/title_activity_steps_detail"
             android:parentActivityName=".activities.StepsActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.StepsActivity" />
+
         </activity>
 
         <receiver android:name=".widget.BakingAppWidgetProvider">
@@ -51,7 +57,7 @@
                 android:resource="@xml/baking_app_widget_provider_info" />
         </receiver>
 
-        <service android:name=".widget.BakingAppWidgetService"
+        <service android:name=".widget.BakingAppWidgetRemoteService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false"/>
 
