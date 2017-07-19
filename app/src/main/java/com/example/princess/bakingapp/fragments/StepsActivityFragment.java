@@ -53,6 +53,7 @@ public class StepsActivityFragment extends Fragment implements StepAdapter.ListI
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        //Parsing the Intent
         index = getActivity().getIntent().getExtras().getInt("item");
         steps = bakes.get(index).getSteps();
         getActivity().setTitle(bakes.get(index).getName());
@@ -75,6 +76,7 @@ public class StepsActivityFragment extends Fragment implements StepAdapter.ListI
             Intent intent = new Intent(getActivity(), StepsDetailActivity.class);
             intent.putExtra("item", clickedItemIndex);
             startActivity(intent);
+
         }else {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             StepsDetailActivityFragment stepsDetailActivityFragment = new StepsDetailActivityFragment();

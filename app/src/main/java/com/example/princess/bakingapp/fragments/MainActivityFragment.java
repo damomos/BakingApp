@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.princess.bakingapp.R;
 import com.example.princess.bakingapp.activities.StepsActivity;
@@ -31,6 +34,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static com.example.princess.bakingapp.R.string.g;
 import static com.example.princess.bakingapp.activities.MainActivity.isTablet;
 
 /**
@@ -40,7 +44,14 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
 
     private RecyclerView recyclerView;
     private RecipeAdapter recipeAdapter;
+    private LinearLayout noInternet;
+    RecyclerView.LayoutManager layoutManager;
     public static ArrayList<Recipes> bakes = new ArrayList<>();
+
+    private final String PORTRAIT_VIEW_STATE = "portrait_view_state";
+    private final String LANDSCAPE_VIEW_STATE = "landscape_view_state";
+    private static Parcelable BundlePortraitViewState;
+    private static Parcelable BundleLandscapeViewState;
 
     public MainActivityFragment() {
     }
@@ -50,7 +61,10 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        loadRecipes();
+        noInternet = (LinearLayout) view.findViewById(R.id.empty_state_container);
+        layoutManager = new GridLayoutManager(getActivity(), 3);
+
+        downloadRecipes();
 
         return view;
     }
@@ -64,18 +78,20 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
 
     public void initViews(ArrayList<Recipes> bakes){
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recipe_list);
+
         if(isTablet){
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+            layoutManager = new GridLayoutManager(getActivity(), 3);
         } else {
 
             if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             {
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                layoutManager = new LinearLayoutManager(getActivity());
             }else {
 
-                recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+                layoutManager = new GridLayoutManager(getActivity(), 2);
             }
         }
+        recyclerView.setLayoutManager(layoutManager);
         recipeAdapter = new RecipeAdapter(this, bakes);
         recyclerView.setAdapter(recipeAdapter);
     }
@@ -153,11 +169,55 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
         }
     }
 
-    private void loadRecipes(){
+    private void downloadRecipes(){
         if(checkConnection()){
             new FetchRecipe().execute();
+        } else {
+            noInternet.setVisibility(View.VISIBLE);
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        //Save the list state
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            BundlePortraitViewState = layoutManager.onSaveInstanceState();
+            outState.putParcelable(PORTRAIT_VIEW_STATE, BundlePortraitViewState);
+
+        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            BundleLandscapeViewState = layoutManager.onSaveInstanceState();
+            outState.putParcelable(LANDSCAPE_VIEW_STATE, BundleLandscapeViewState);
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        // Retrieve list state and list/item positions
+        if(savedInstanceState != null) {
+            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                BundlePortraitViewState = savedInstanceState.getParcelable(PORTRAIT_VIEW_STATE);
+
+            } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                BundleLandscapeViewState = savedInstanceState.getParcelable(LANDSCAPE_VIEW_STATE);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (BundlePortraitViewState != null) {
+            if(this.getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT){
+                layoutManager.onRestoreInstanceState(BundlePortraitViewState);
+            }
+            else if(this.getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE){
+                layoutManager.onRestoreInstanceState(BundleLandscapeViewState);
+            }
+
+        }
+    }
 }

@@ -79,6 +79,7 @@ public class StepsDetailActivityFragment extends Fragment implements ExoPlayer.E
                 if (index > 0) {
                     index--;
                     fullDescription.setText(steps.get(index).getFullDescription());
+                    getActivity().setTitle(steps.get(index).getShortDescription());
                     restExoPlayer(0, false);
                     initializePlayer(Uri.parse(steps.get(index).getVideoURL()));
                 }
@@ -90,6 +91,7 @@ public class StepsDetailActivityFragment extends Fragment implements ExoPlayer.E
                 if (index < steps.size() - 1) {
                     index++;
                     fullDescription.setText(steps.get(index).getFullDescription());
+                    getActivity().setTitle(steps.get(index).getShortDescription());
                     restExoPlayer(0, false);
                     initializePlayer(Uri.parse(steps.get(index).getVideoURL()));
                 }

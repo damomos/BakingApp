@@ -20,4 +20,7 @@
     <string name="steps">Steps</string>
     <string name="hello">Hello</string>
     <string name="servings">Servings:</string>
+
+    <string name="title_for_empty_view">Oops!</string>
+    <string name="text_for_empty_view">Possible internet connection is missing</string>
 </resources>

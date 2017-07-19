@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.example.princess.bakingapp.R;
 import com.example.princess.bakingapp.fragments.MainActivityFragment;

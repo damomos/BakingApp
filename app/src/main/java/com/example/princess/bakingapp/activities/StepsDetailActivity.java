@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.princess.bakingapp.R;
@@ -28,6 +29,18 @@ public class StepsDetailActivity extends AppCompatActivity {
                     .add(R.id.stepsdetailsframe, stepsDetailsFragment)
                     .commit();
         }
+    }
+
+    //This method responds to the back press
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
