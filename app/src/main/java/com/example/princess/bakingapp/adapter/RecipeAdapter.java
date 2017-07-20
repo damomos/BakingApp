@@ -12,8 +12,7 @@ import com.example.princess.bakingapp.R;
 import com.example.princess.bakingapp.model.Recipes;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.ArrayList;;
 
 /**
  * Created by Princess on 7/14/2017.

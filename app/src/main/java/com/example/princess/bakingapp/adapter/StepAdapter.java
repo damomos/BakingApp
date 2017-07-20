@@ -41,6 +41,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
         holder.shortDescription.setText(steps.get(position).getShortDescription());
         holder.fullDescription.setText(steps.get(position).getFullDescription());
+        String thumbnailUrl = steps.get(position).getThumbnailURL();
+        if(thumbnailUrl.isEmpty()){
+            holder.stepImage.setImageResource(R.drawable.img_no_thumb);
+        }
+
     }
 
     @Override
@@ -56,6 +61,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
         TextView shortDescription;
         TextView fullDescription;
+        ImageView stepImage;
 
         public StepViewHolder(View itemView) {
             super(itemView);
@@ -63,6 +69,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
             shortDescription = (TextView) itemView.findViewById(R.id.short_desc);
             fullDescription = (TextView) itemView.findViewById(R.id.full_desc);
+            stepImage = (ImageView) itemView.findViewById(R.id.step_image);
         }
 
         @Override

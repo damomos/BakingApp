@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#334"
-    >
+    android:background="#FFFA6334">
 
     <TextView
         android:id="@+id/widget_item_recipe_name"

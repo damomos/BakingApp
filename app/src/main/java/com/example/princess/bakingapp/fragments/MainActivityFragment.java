@@ -183,14 +183,6 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
         }
     }
 
-//    public class FetchRecipeTaskComplete implements AsyncTaskListener<ArrayList<Recipes>> {
-//
-//        @Override
-//        public void onTaskComplete(ArrayList<Recipes> result) {
-//            FetchRecipeTask fetchRecipeTask = new FetchRecipeTask(getContext(),);
-//            fetchRecipeTask.execute();
-//        }
-//    }
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
