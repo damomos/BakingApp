@@ -36,9 +36,7 @@ import static com.example.princess.bakingapp.fragments.StepsActivityFragment.ste
 /**
  * A placeholder fragment containing a simple view.
  */
-public class StepsDetailActivityFragment extends Fragment
-        //implements ExoPlayer.EventListener
-{
+public class StepsDetailActivityFragment extends Fragment {
 
     private static final String TAG = StepsDetailActivityFragment.class.getSimpleName();
 
