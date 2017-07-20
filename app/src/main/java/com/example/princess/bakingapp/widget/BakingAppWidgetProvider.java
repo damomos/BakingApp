@@ -23,15 +23,12 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
 
         //Create an Intent to set the Intent Service
         Intent serviceIntent = new Intent(context, BakingAppWidgetRemoteService.class);
-        views.setRemoteAdapter(R.id.widget_bake_image, serviceIntent);
+        views.setRemoteAdapter(R.id.widget_stack_view, serviceIntent);
 
         //Create an Intent to launch MainActivity when clicked
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setPendingIntentTemplate(R.id.widget_bake_image, pendingIntent);
-
-        //Widgets allow click handlers to only launch pending intents
-        views.setOnClickPendingIntent(R.id.widget_bake_image, pendingIntent);
+        views.setPendingIntentTemplate(R.id.widget_stack_view, pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

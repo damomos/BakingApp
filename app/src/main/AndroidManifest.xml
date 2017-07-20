@@ -15,7 +15,8 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +28,8 @@
             android:name=".activities.StepsActivity"
             android:label="@string/title_activity_steps"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize|keyboardHidden">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -39,7 +41,8 @@
             android:name=".activities.StepsDetailActivity"
             android:label="@string/title_activity_steps_detail"
             android:parentActivityName=".activities.StepsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize|keyboardHidden">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

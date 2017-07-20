@@ -35,7 +35,7 @@ public class StepsActivityFragment extends Fragment implements StepAdapter.ListI
     private StepAdapter stepAdapter;
     public static ArrayList<Steps> steps = new ArrayList<>();
 
-    private int index = 0;
+    private int index = 100;
 
     public StepsActivityFragment() {
     }

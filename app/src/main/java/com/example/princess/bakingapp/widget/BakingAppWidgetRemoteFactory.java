@@ -9,6 +9,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.princess.bakingapp.R;
+import com.example.princess.bakingapp.model.Ingredients;
 import com.example.princess.bakingapp.model.Recipes;
 import com.google.gson.Gson;
 
@@ -93,15 +94,23 @@ public class BakingAppWidgetRemoteFactory implements RemoteViewsService.RemoteVi
     @Override
     public RemoteViews getViewAt(int position) {
 
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_list_item);
 
-        //Update the pie image
-        remoteViews.setImageViewResource(R.id.widget_bake_image, R.drawable.brownies);
+        Recipes recipe = recipes.get(position);
+        //Set the recipe names on the widget
+        remoteViews.setTextViewText(R.id.widget_item_recipe_name, recipe.getName());
+        //Set the ingredients on the widget
+        String ingredient = "";
+        for (Ingredients ingredients : recipe.getIngredients()) {
+            ingredient += " - " + ingredients.getIngredient() + "\n";
+        }
+        remoteViews.setTextViewText(R.id.widget_item_ingredients, ingredient);
 
         Bundle bundle = new Bundle();
+        bundle.putParcelable(context.getString(R.string.extra_recipe), recipe);
         Intent intent = new Intent();
         intent.putExtras(bundle);
-        remoteViews.setOnClickFillInIntent(R.id.widget_bake_image, intent);
+        remoteViews.setOnClickFillInIntent(R.id.recipe_widget_item, intent);
 
         return remoteViews;
     }

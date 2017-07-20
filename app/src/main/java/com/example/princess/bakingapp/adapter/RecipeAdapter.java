@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.princess.bakingapp.R;
 import com.example.princess.bakingapp.model.Recipes;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -42,16 +43,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         Recipes recipes_item = recipes.get(position);
         String serving = recipes_item.getServings();
         holder.name.setText(recipes_item.getName());
-        if(recipes_item.getName().equals("Nutella Pie")){
-            holder.imageView.setImageResource(R.drawable.nutella_pie);
-        }else if(recipes_item.getName().equals("Brownies")){
-            holder.imageView.setImageResource(R.drawable.brownies);
-        }else if(recipes_item.getName().equals("Yellow Cake")){
-            holder.imageView.setImageResource(R.drawable.yellow_cake);
-        }else if(recipes_item.getName().equals("Cheesecake")) {
-            holder.imageView.setImageResource(R.drawable.cheesecake);
-        }
         holder.servings.setText("Servings: " + serving);
+
+        String imageUrl = recipes_item.getImage();
+        if(imageUrl.isEmpty()){
+            if(recipes_item.getName().equals("Nutella Pie")){
+                holder.imageView.setImageResource(R.drawable.nutella_pie);
+            }else if(recipes_item.getName().equals("Brownies")){
+                holder.imageView.setImageResource(R.drawable.brownies);
+            }else if(recipes_item.getName().equals("Yellow Cake")){
+                holder.imageView.setImageResource(R.drawable.yellow_cake);
+            }else if(recipes_item.getName().equals("Cheesecake")) {
+                holder.imageView.setImageResource(R.drawable.cheesecake);
+
+        } else {
+                Picasso.with(context).load(imageUrl).into(holder.imageView);
+        }
+        }
 
     }
 

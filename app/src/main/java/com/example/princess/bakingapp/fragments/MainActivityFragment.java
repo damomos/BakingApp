@@ -20,10 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+
 import com.example.princess.bakingapp.R;
 import com.example.princess.bakingapp.activities.StepsActivity;
 import com.example.princess.bakingapp.adapter.RecipeAdapter;
 import com.example.princess.bakingapp.model.Recipes;
+
 
 import org.json.JSONArray;
 
@@ -34,19 +36,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.example.princess.bakingapp.R.string.g;
 import static com.example.princess.bakingapp.activities.MainActivity.isTablet;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements RecipeAdapter.ListItemClickListener{
+public class MainActivityFragment extends Fragment implements RecipeAdapter.ListItemClickListener {
 
     private RecyclerView recyclerView;
     private RecipeAdapter recipeAdapter;
     private LinearLayout noInternet;
     RecyclerView.LayoutManager layoutManager;
     public static ArrayList<Recipes> bakes = new ArrayList<>();
+
 
     private final String PORTRAIT_VIEW_STATE = "portrait_view_state";
     private final String LANDSCAPE_VIEW_STATE = "landscape_view_state";
@@ -63,9 +65,10 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
 
         noInternet = (LinearLayout) view.findViewById(R.id.empty_state_container);
         layoutManager = new GridLayoutManager(getActivity(), 3);
+        recyclerView = (RecyclerView)view.findViewById(R.id.recipe_list);
 
         downloadRecipes();
-
+        initViews();
         return view;
     }
 
@@ -76,9 +79,7 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
-    public void initViews(ArrayList<Recipes> bakes){
-        recyclerView = (RecyclerView) getActivity().findViewById(R.id.recipe_list);
-
+    public void initViews(){
         if(isTablet){
             layoutManager = new GridLayoutManager(getActivity(), 3);
         } else {
@@ -91,22 +92,25 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
                 layoutManager = new GridLayoutManager(getActivity(), 2);
             }
         }
+
+
         recyclerView.setLayoutManager(layoutManager);
         recipeAdapter = new RecipeAdapter(this, bakes);
         recyclerView.setAdapter(recipeAdapter);
     }
 
-    @Override
-    public void onListItemClick(int clickedItemIndex) {
-        Intent intent = new Intent(getActivity(), StepsActivity.class);
-        intent.putExtra("item", clickedItemIndex);
-        startActivity(intent);
-    }
 
-    public class FetchRecipe extends AsyncTask<Void, Void, ArrayList<Recipes>> {
+    public class  FetchRecipeTask extends AsyncTask<Void, Void, ArrayList<Recipes>> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
         @Override
         protected ArrayList<Recipes> doInBackground(Void... params) {
+
 
             HttpURLConnection httpURLConnection = null;
             BufferedReader bufferedReader = null;
@@ -120,15 +124,24 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
 
                 URL url = new URL(builtUri.toString());
 
+                //Giving a url a open connection
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("GET");
                 httpURLConnection.connect();
 
+                //Openstream method of getting call from web
                 InputStream inputStream = httpURLConnection.getInputStream();
+
+                //Set the connection timeout to 5 seconds and the read timeout to 10 seconds
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setReadTimeout(10000);
+
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
                     return null;
                 }
+
+                //Get a stream to read data from
                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String line;
@@ -165,13 +178,31 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
 
         @Override
         protected void onPostExecute(ArrayList<Recipes> recipes) {
-            initViews(recipes);
+            super.onPostExecute(recipes);
+            initViews();
         }
     }
 
+//    public class FetchRecipeTaskComplete implements AsyncTaskListener<ArrayList<Recipes>> {
+//
+//        @Override
+//        public void onTaskComplete(ArrayList<Recipes> result) {
+//            FetchRecipeTask fetchRecipeTask = new FetchRecipeTask(getContext(),);
+//            fetchRecipeTask.execute();
+//        }
+//    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        Intent intent = new Intent(getActivity(), StepsActivity.class);
+        intent.putExtra("item", clickedItemIndex);
+        startActivity(intent);
+    }
+
+
     private void downloadRecipes(){
         if(checkConnection()){
-            new FetchRecipe().execute();
+                new FetchRecipeTask().execute();
         } else {
             noInternet.setVisibility(View.VISIBLE);
         }
@@ -220,4 +251,5 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.List
 
         }
     }
+
 }
