@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.princess.bakingapp.R;
 import com.example.princess.bakingapp.model.Steps;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -41,8 +41,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
         holder.shortDescription.setText(steps.get(position).getShortDescription());
         holder.fullDescription.setText(steps.get(position).getFullDescription());
+
         String thumbnailUrl = steps.get(position).getThumbnailURL();
-        if(thumbnailUrl.isEmpty()){
+        context = holder.stepImage.getContext();
+        if(!thumbnailUrl.isEmpty()){
+            Glide.with(context).load(thumbnailUrl).into(holder.stepImage);
+        } else {
             holder.stepImage.setImageResource(R.drawable.img_no_thumb);
         }
 

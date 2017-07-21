@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.princess.bakingapp.R;
 import com.example.princess.bakingapp.model.Recipes;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;;
 
@@ -44,8 +44,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.name.setText(recipes_item.getName());
         holder.servings.setText("Servings: " + serving);
 
+        context = holder.imageView.getContext();
         String imageUrl = recipes_item.getImage();
-        if(imageUrl.isEmpty()){
+        if(!imageUrl.isEmpty()){
+            Glide.with(context).load(imageUrl).into(holder.imageView);
+
+        } else {
             if(recipes_item.getName().equals("Nutella Pie")){
                 holder.imageView.setImageResource(R.drawable.nutella_pie);
             }else if(recipes_item.getName().equals("Brownies")){
@@ -54,9 +58,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 holder.imageView.setImageResource(R.drawable.yellow_cake);
             }else if(recipes_item.getName().equals("Cheesecake")) {
                 holder.imageView.setImageResource(R.drawable.cheesecake);
-
-        } else {
-                Picasso.with(context).load(imageUrl).into(holder.imageView);
         }
         }
 

@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.princess.bakingapp.R;
 import com.example.princess.bakingapp.model.Steps;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -31,7 +32,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.squareup.picasso.Picasso;
 
 import static com.example.princess.bakingapp.activities.MainActivity.isTablet;
 import static com.example.princess.bakingapp.fragments.StepsActivityFragment.steps;
@@ -173,7 +173,7 @@ public class StepsDetailActivityFragment extends Fragment implements ExoPlayer.E
             } else {
                 playerView.setVisibility(View.GONE);
                 mNoVideoImageView.setVisibility(View.VISIBLE);
-                Picasso.with(getActivity()).load(R.mipmap.no_video_image).fit().into(mNoVideoImageView);
+                Glide.with(getActivity()).load(R.mipmap.no_video_image).fitCenter().into(mNoVideoImageView);
 
             }
         }
@@ -191,7 +191,6 @@ public class StepsDetailActivityFragment extends Fragment implements ExoPlayer.E
             currentWindow = exoPlayer.getCurrentWindowIndex();
             playWhenReady = exoPlayer.getPlayWhenReady();
             exoPlayer.release();
-            //exoPlayer = null;
         }
     }
 
@@ -213,7 +212,6 @@ public class StepsDetailActivityFragment extends Fragment implements ExoPlayer.E
     @Override
     public void onStop() {
         super.onStop();
-        releasePlayer();
     }
 
     @Override
